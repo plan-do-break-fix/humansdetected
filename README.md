@@ -10,7 +10,7 @@ In 2001, Carlos Mańas, Maria Macias, Abel Cabans, Abel Sutilo and Juanjo Bernab
 
 ## The Survey
 
-A million thanks to Majestic for the [The Majestic Million], a free list of the top million websites. A comparable list from Alexa Top Sites would cost [$2500] USD. After thorough financial analysis, free was determined to be a better fit with the project's budget.
+A million thanks to Majestic for the [The Majestic Million], a free list of the top million domains. A comparable list from Alexa Top Sites would cost [$2500] USD. After thorough financial analysis, free was determined to be a better fit with the project's budget.
 
 A million domains might sound like a good start, but it's not. It's not even one third of a percent of the nearly 360 million registered domains. Regardless, it is a start.
 
