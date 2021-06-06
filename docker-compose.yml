@@ -1,0 +1,37 @@
+---
+version: "3.3"
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: humans-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    networks:
+      humans-net:
+        ipv4_address: 172.42.0.2
+    volumes:
+      - /home/user/Documents/mysql:/var/lib/mysql
+
+  agent:
+    image: humans-agent:1.0
+    # container_name: humans-agent
+    restart: always
+    depends_on:
+      - database
+    environment:
+      DB_USER: agent
+      DB_PASSWD: aperta
+      DB_HOST: 172.42.0.2
+    networks:
+      - humans-net
+    volumes:
+      - /home/user/nltk_data:/home/user/nltk_data
+    
+networks:
+  humans-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.42.0.0/16
