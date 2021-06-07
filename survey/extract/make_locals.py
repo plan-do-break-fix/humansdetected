@@ -10,10 +10,8 @@ SCHEMA = [
     "  domain TEXT NOT NULL"
     ");",
     "CREATE TABLE IF NOT EXISTS text ("
-    "  domain INTEGER NOT NULL,"
-    "  text TEXT NOT NULL,"
-    "  FOREIGN KEY (domain)"
-    "    REFERENCES master_list (domain)"
+    "  domain TEXT NOT NULL,"
+    "  text TEXT NOT NULL"
     ");"
 ]
 
@@ -25,18 +23,20 @@ def extract(cursor, pk: int) -> Tuple:
     return cursor.fetchone()
 
 def good_text(text):
-    if (not bool(text) or
+    if not text or type(text) != str:
+        return False
+    text = text.strip()
+    if (len(text) < 8 or
           ("404 not found" in text.lower().split("\n")[0] 
            or "forbidden" in text.lower().split("\n")[0]
-           or "does not exist" in text.lower().split("\n")[0])
+           or "does not exist" in text.lower().split("\n")[0]
+           or text.lower().startswith("error"))
         or
-          (text.startswith("<") and not text.startswith("<<")) # << is never a tag
-        or
-          len(text) < 8):
+          (text.startswith("<") and not text.startswith("<<"))): # << is never a tag
         return False
     return True
 
-def make_locals(db_path, mysql_host, user=None, passwd=None, _i=1, _f=1000000):
+def make_locals(db_path, mysql_host, user=None, passwd=None, _i=1, _f=500000):
     sqlite_conn = sqlite3.connect(db_path)
     sqlite_c = sqlite_conn.cursor()
     for schema in SCHEMA:
@@ -52,7 +52,7 @@ def make_locals(db_path, mysql_host, user=None, passwd=None, _i=1, _f=1000000):
         sqlite_c.execute("INSERT INTO master_list (domain) VALUES (?)", (data[0],))
         status, content_type = data[1], data[2]
         if status == 200 and content_type == "txt" and good_text(data[3]):
-            sqlite_c.execute("INSERT INTO text (text, domain) VALUES (?,?)", (data[3], _i))
+            sqlite_c.execute("INSERT INTO text (text, domain) VALUES (?,?)", (data[3], data[0]))
+        print(f"{_i} | {data[0]}/humans.txt")
         sqlite_conn.commit()
-        print(f"{_i} | {data[3]}/humans.txt")
         _i += 1
