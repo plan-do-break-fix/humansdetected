@@ -11,4 +11,5 @@ __pycache__/
 *.code-workspace
 
 .env
-venv/*
+survey/extract/venv/*
+flask/app/venv/*
