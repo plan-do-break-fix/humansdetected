@@ -7,9 +7,11 @@ from typing import Tuple
 
 SCHEMA = [
     "CREATE TABLE IF NOT EXISTS master_list ("
+    "  pk INTEGER NOT NULL PRIMARY KEY,"
     "  domain TEXT NOT NULL"
     ");",
     "CREATE TABLE IF NOT EXISTS text ("
+    "  pk INTEGER NOT NULL PRIMARY KEY,"
     "  domain TEXT NOT NULL,"
     "  text TEXT NOT NULL"
     ");"
@@ -30,6 +32,7 @@ def good_text(text):
           ("404 not found" in text.lower().split("\n")[0] 
            or "forbidden" in text.lower().split("\n")[0]
            or "does not exist" in text.lower().split("\n")[0]
+           or "account suspended" in text.lower().split("\n")[0]
            or text.lower().startswith("error"))
         or
           (text.startswith("<") and not text.startswith("<<"))): # << is never a tag
