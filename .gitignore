@@ -10,6 +10,8 @@ __pycache__/
 .vscode/*
 *.code-workspace
 
-.env
+# Environment
+proddb/.env
 survey/extract/venv/*
+flask/.env
 flask/app/venv/*
