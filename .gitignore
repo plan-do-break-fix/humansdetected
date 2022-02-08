@@ -11,7 +11,12 @@ __pycache__/
 *.code-workspace
 
 # Environment
-proddb/.env
-survey/extract/venv/*
-flask/.env
-flask/app/venv/*
+migrate/.env
+
+# Python Virutal Environment
+venv/
+
+# Secrets
+*.secrets
+
+*/.rubbish
